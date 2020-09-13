@@ -1,20 +1,36 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { logout } from '../../actions/auth';
 
-const Navbar = () => (
-  <nav className='navbar bg-dark'>
-    <h1>
-      <Link to='/'>
+const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
+  const authLinks = (
+    <ul>
+      <li>
         {' '}
-        <i className='fas fa-paper-plane' />
-        DevConnector
-      </Link>
-    </h1>{' '}
+        <Link to='/dashboard'>
+          <i className='fas fa-user' />{' '}
+          <span className='hide-sm'>Dashboard</span>
+        </Link>
+      </li>
+      <li>
+        {' '}
+        {/* <Link to='/profiles'> Developers </Link> */}
+        <a onClick={logout} href='#!'>
+          <i className='fas fa-sign-out-alt'></i>{' '}
+          <span className='hide-sm'> Logout </span>
+        </a>
+      </li>
+    </ul>
+  );
+
+  const guestLinks = (
     <ul>
       <li>
         {' '}
         {/* <Link to='/profiles'> Developers </Link> */}
-        <a href='!#'> Developers </a>
+        <a href='#!'> Developers </a>
       </li>
       <li>
         {' '}
@@ -24,8 +40,29 @@ const Navbar = () => (
         {' '}
         <Link to='/login'> Login </Link>
       </li>
-    </ul>{' '}
-  </nav>
-);
+    </ul>
+  );
+  return (
+    <nav className='navbar bg-dark'>
+      <h1>
+        <Link to='/'>
+          {' '}
+          <i className='fas fa-paper-plane' />
+          DevConnector
+        </Link>
+      </h1>{' '}
+      {!loading && (
+        <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
+      )}
+    </nav>
+  );
+};
+Navbar.propTypes = {
+  logout: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+};
 
-export default Navbar;
+const mapStateToProps = state => ({
+  auth: state.auth,
+});
+export default connect(mapStateToProps, { logout })(Navbar);
