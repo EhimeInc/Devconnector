@@ -6,10 +6,8 @@ const auth = require('../../middleware/auth');
 
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
-const {
-  check,
-  validationResult
-} = require('express-validator');
+const Post = require('../../models/Post');
+const { check, validationResult } = require('express-validator');
 
 /**
  * @router   Get api/profile/me
@@ -89,9 +87,9 @@ router.post(
         .split(
           ','
         ) /* change the list to an array that takes string with delimiter (comma)*/
-        .map((skill) =>
+        .map(skill =>
           skill.trim()
-        ) /** discount the space and map the string to array */ ;
+        ) /** discount the space and map the string to array */;
     }
 
     //Build social object
@@ -109,13 +107,17 @@ router.post(
 
       if (profile) {
         // Update
-        profile = await Profile.findOneAndUpdate({
-          user: req.user.id,
-        }, {
-          $set: profileFields,
-        }, {
-          new: true,
-        });
+        profile = await Profile.findOneAndUpdate(
+          {
+            user: req.user.id,
+          },
+          {
+            $set: profileFields,
+          },
+          {
+            new: true,
+          }
+        );
 
         return res.json(profile);
       }
@@ -197,7 +199,10 @@ router.get('/user/:user_id', async (req, res) => {
 
 router.delete('/', auth, async (req, res) => {
   try {
-    //@todo - remove users posts
+    // Remove user posts
+    await Post.deleteMany({
+      user: req.user.id,
+    });
     // Remove profile
     await Profile.findOneAndRemove({
       user: req.user.id,
@@ -234,12 +239,10 @@ router.put(
     ],
   ],
   async (req, res) => {
-
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-
       return res.status(400).json({
-        errors: errors.array()
+        errors: errors.array(),
       });
     }
 
@@ -250,7 +253,7 @@ router.put(
       from,
       to,
       current,
-      description
+      description,
     } = req.body;
     const newExp = {
       title,
@@ -259,25 +262,21 @@ router.put(
       from,
       to,
       current,
-      description
-    }
+      description,
+    };
 
     try {
-
       const profile = await Profile.findOne({
-        user: req.user.id
+        user: req.user.id,
       });
 
       // unshift is similar to push but instead of moving to the end, it makeslast in the first
       profile.experience.unshift(newExp);
       await profile.save();
       res.json(profile);
-
     } catch (err) {
-
       console.error(err.message);
       res.status(500).send('Server Error');
-
     }
   }
 );
@@ -292,23 +291,22 @@ router.put(
 
 router.delete('/experience/:exp_id', auth, async (req, res) => {
   try {
-
     const profile = await Profile.findOne({
-      user: req.user.id
+      user: req.user.id,
     });
 
     // Get remove index
-    const removeIndex = profile.experience.map(item => item.id).indexOf(req.params.exp_id);
+    const removeIndex = profile.experience
+      .map(item => item.id)
+      .indexOf(req.params.exp_id);
     profile.experience.splice(removeIndex, 1);
     await profile.save();
     res.json(profile);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
-
   }
 });
-
 
 /**
  * @router   PUT api/profile/education
@@ -324,17 +322,16 @@ router.put(
     auth,
     [
       check('school', 'School is required').not().isEmpty(),
-      check('degree', 'Degree is required').not().isEmpty(), check('fieldofstudy', 'Field of study is required').not().isEmpty(),
+      check('degree', 'Degree is required').not().isEmpty(),
+      check('fieldofstudy', 'Field of study is required').not().isEmpty(),
       check('from', 'From is required').not().isEmpty(),
     ],
   ],
   async (req, res) => {
-
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-
       return res.status(400).json({
-        errors: errors.array()
+        errors: errors.array(),
       });
     }
 
@@ -345,7 +342,7 @@ router.put(
       from,
       to,
       current,
-      description
+      description,
     } = req.body;
     const newEdu = {
       school,
@@ -354,25 +351,21 @@ router.put(
       from,
       to,
       current,
-      description
-    }
+      description,
+    };
 
     try {
-
       const profile = await Profile.findOne({
-        user: req.user.id
+        user: req.user.id,
       });
 
       // unshift is similar to push but instead of moving to the end, it makeslast in the first
       profile.education.unshift(newEdu);
       await profile.save();
       res.json(profile);
-
     } catch (err) {
-
       console.error(err.message);
       res.status(500).send('Server Error');
-
     }
   }
 );
@@ -387,20 +380,20 @@ router.put(
 
 router.delete('/education/:edu_id', auth, async (req, res) => {
   try {
-
     const profile = await Profile.findOne({
-      user: req.user.id
+      user: req.user.id,
     });
 
     // Get remove index
-    const removeIndex = profile.education.map(item => item.id).indexOf(req.params.edu_id);
+    const removeIndex = profile.education
+      .map(item => item.id)
+      .indexOf(req.params.edu_id);
     profile.education.splice(removeIndex, 1);
     await profile.save();
     res.json(profile);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
-
   }
 });
 
@@ -412,33 +405,31 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
  * @access   Public
  */
 router.get('/github/:username', async (req, res) => {
-
   try {
-
     const options = {
-
-      uri: `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc&client_id=${config.get('githubClientId')}&client_secret=${config.get('githubSecret')}`,
+      uri: `https://api.github.com/users/${
+        req.params.username
+      }/repos?per_page=5&sort=created:asc&client_id=${config.get(
+        'githubClientId'
+      )}&client_secret=${config.get('githubSecret')}`,
       method: 'GET',
       headers: {
-        'user-agent': 'node.js'
-      }
+        'user-agent': 'node.js',
+      },
     };
     request(options, (error, response, body) => {
       if (error) console.error(error);
       if (response.statusCode !== 200) {
         return res.status(404).json({
-          msg: 'No Github profile found'
+          msg: 'No Github profile found',
         });
       }
       res.json(JSON.parse(body));
     });
-
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
-
   }
-
 });
 
 module.exports = router;

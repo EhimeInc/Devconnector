@@ -1,0 +1,65 @@
+Date : 2020-09-14 15:10:08
+Directory : c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client
+Total : 27 files,  1673 codes, 74 comments, 248 blanks, all 1995 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JavaScript |         24 |      1,155 |         57 |        138 |      1,350 |
+| CSS        |          1 |        475 |         17 |        104 |        596 |
+| JSON       |          1 |         25 |          0 |          1 |         26 |
+| HTML       |          1 |         18 |          0 |          5 |         23 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                                                               | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                                                                  |         27 |      1,673 |         74 |        248 |      1,995 |
+| public                                                                                                                                                             |          2 |         43 |          0 |          6 |         49 |
+| src                                                                                                                                                                |         25 |      1,630 |         74 |        242 |      1,946 |
+| src\actions                                                                                                                                                        |          4 |        151 |          8 |         26 |        185 |
+| src\components                                                                                                                                                     |         11 |        821 |         43 |         81 |        945 |
+| src\components\auth                                                                                                                                                |          2 |        159 |         43 |         21 |        223 |
+| src\components\dashboard                                                                                                                                           |          2 |         66 |          0 |          9 |         75 |
+| src\components\layout                                                                                                                                              |          4 |        132 |          0 |         15 |        147 |
+| src\components\profile-forms                                                                                                                                       |          2 |        436 |          0 |         31 |        467 |
+| src\components\routing                                                                                                                                             |          1 |         28 |          0 |          5 |         33 |
+| src\reducers                                                                                                                                                       |          4 |        105 |          0 |         16 |        121 |
+| src\utils                                                                                                                                                          |          1 |          9 |          0 |          3 |         12 |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                                                                                           | language   | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\public\index.html                             | HTML       |         18 |          0 |          5 |         23 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\public\manifest.json                          | JSON       |         25 |          0 |          1 |         26 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\App.css                                   | CSS        |        475 |         17 |        104 |        596 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\App.js                                    | JavaScript |         47 |          2 |          4 |         53 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\actions\alert.js                          | JavaScript |         10 |          0 |          3 |         13 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\actions\auth.js                           | JavaScript |         81 |          4 |         13 |         98 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\actions\profile.js                        | JavaScript |         48 |          4 |          9 |         61 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\actions\types.js                          | JavaScript |         12 |          0 |          1 |         13 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\components\auth\Login.js                  | JavaScript |         66 |          9 |         11 |         86 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\components\auth\Register.js               | JavaScript |         93 |         34 |         10 |        137 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\components\dashboard\Dashboard.js         | JavaScript |         48 |          0 |          6 |         54 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\components\dashboard\DashboardActions.js  | JavaScript |         18 |          0 |          3 |         21 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\components\layout\Alert.js                | JavaScript |         17 |          0 |          5 |         22 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\components\layout\Landing.js              | JavaScript |         39 |          0 |          4 |         43 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\components\layout\Navbar.js               | JavaScript |         65 |          0 |          4 |         69 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\components\layout\Spinner.js              | JavaScript |         11 |          0 |          2 |         13 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\components\profile-forms\CreateProfile.js | JavaScript |        212 |          0 |         15 |        227 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\components\profile-forms\EditProfile.js   | JavaScript |        224 |          0 |         16 |        240 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\components\routing\PrivateRoute.js        | JavaScript |         28 |          0 |          5 |         33 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\index.js                                  | JavaScript |          9 |          0 |          2 |         11 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\reducers\alert.js                         | JavaScript |         13 |          0 |          3 |         16 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\reducers\auth.js                          | JavaScript |         49 |          0 |          7 |         56 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\reducers\index.js                         | JavaScript |          9 |          0 |          2 |         11 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\reducers\profile.js                       | JavaScript |         34 |          0 |          4 |         38 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\setupTests.js                             | JavaScript |          1 |          4 |          1 |          6 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\store.js                                  | JavaScript |         12 |          0 |          5 |         17 |
+| c:\Users\ctuwa\Documents\Self_Learning+++++++++++++++++\Mern_Stack_Front_Back_Nodejs_React_Redux\devconnector\client\src\utils\setAuthToken.js                     | JavaScript |          9 |          0 |          3 |         12 |
+| Total                                                                                                                                                              |            |      1,673 |         74 |        248 |      1,995 |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
