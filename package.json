@@ -21,7 +21,8 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.19",
     "mongoose": "^5.9.24",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "yargs-parser": "^20.2.0"
   },
   "devDependencies": {
     "concurrently": "^5.2.0",
