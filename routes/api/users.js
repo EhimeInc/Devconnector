@@ -73,7 +73,7 @@ router.post(
         password,
       });
       // Encrypt password
-      const salt = await bcrpyt.genSalt(10);
+      const salt = await bcrpyt.genSalt(12);
       user.password = await bcrpyt.hash(password, salt);
       await user.save();
 
@@ -89,7 +89,7 @@ router.post(
         payload,
         config.get('jwtSecret'),
         {
-          expiresIn: 360000, // change to 3600 in production
+          expiresIn: 3600, // change to 3600 in production
         },
         (err, token) => {
           if (err) throw err;
