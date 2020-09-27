@@ -11,6 +11,11 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
         {' '}
         <Link to='/profiles'>Developers</Link>
       </li>
+
+      <li>
+        {' '}
+        <Link to='/posts'>Posts</Link>
+      </li>
       <li>
         {' '}
         <Link to='/dashboard'>
@@ -50,8 +55,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
       <h1>
         <Link to='/'>
           {' '}
-          <i className='fas fa-paper-plane' />
-          DevConnector
+          <i class='fas fa-anchor'></i> LINKUP
         </Link>
       </h1>{' '}
       {!loading && (
