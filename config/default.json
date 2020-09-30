@@ -1,6 +1,6 @@
 {
-  "mongoURI": "xxx",
+  "mongoURI": "mongodb+srv://chu123:123chu@devconnector-y25zw.mongodb.net/test?retryWrites=true&w=majority",
   "jwtSecret": "mysecrettoken",
-  "githubToken": "xxx"
+  "githubToken": "0dfccea67c336574d866140fa86a0ce898642116"
 
 }
