@@ -74,7 +74,7 @@ const EditProfile = ({
     <Fragment>
       <h1 className='large text-primary'>Create Your Profile</h1>
       <p className='lead'>
-        <i className='fas fa-user'></i> Let's get some information to make your
+        <i className='fas fa-user' /> Let's get some information to make your
         profile stand out
       </p>
       <small>* = required field</small>
@@ -179,7 +179,7 @@ const EditProfile = ({
         {displaySocialInputs && (
           <Fragment>
             <div className='form-group social-input'>
-              <i className='fab fa-twitter fa-2x'></i>
+              <i className='fab fa-twitter fa-2x' />
               <input
                 type='text'
                 placeholder='Twitter URL'
@@ -190,7 +190,7 @@ const EditProfile = ({
             </div>
 
             <div className='form-group social-input'>
-              <i className='fab fa-facebook fa-2x'></i>
+              <i className='fab fa-facebook fa-2x' />
               <input
                 type='text'
                 placeholder='Facebook URL'
@@ -201,7 +201,7 @@ const EditProfile = ({
             </div>
 
             <div className='form-group social-input'>
-              <i className='fab fa-youtube fa-2x'></i>
+              <i className='fab fa-youtube fa-2x' />
               <input
                 type='text'
                 placeholder='YouTube URL'
@@ -212,7 +212,7 @@ const EditProfile = ({
             </div>
 
             <div className='form-group social-input'>
-              <i className='fab fa-linkedin fa-2x'></i>
+              <i className='fab fa-linkedin fa-2x' />
               <input
                 type='text'
                 placeholder='Linkedin URL'
@@ -223,7 +223,7 @@ const EditProfile = ({
             </div>
 
             <div className='form-group social-input'>
-              <i className='fab fa-instagram fa-2x'></i>
+              <i className='fab fa-instagram fa-2x' />
               <input
                 type='text'
                 placeholder='Instagram URL'

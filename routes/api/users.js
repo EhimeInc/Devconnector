@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const gravatar = require('gravatar');
-const bcrpyt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
@@ -24,7 +24,7 @@ router.post(
     check('email', 'Please include a valid email').isEmail(),
     check(
       'password',
-      'Please enter a passwod with 8 or more characters'
+      'Please enter a password with 8 or more characters'
     ).isLength({
       min: 8,
     }),
@@ -73,8 +73,8 @@ router.post(
         password,
       });
       // Encrypt password
-      const salt = await bcrpyt.genSalt(12);
-      user.password = await bcrpyt.hash(password, salt);
+      const salt = await bcrypt.genSalt(12);
+      user.password = await bcrypt.hash(password, salt);
       await user.save();
 
       // Return jsonwebtoken
@@ -89,7 +89,7 @@ router.post(
         payload,
         config.get('jwtSecret'),
         {
-          expiresIn: 3600, // change to 3600 in production
+          expiresIn: '5 days', // change to 3600 in production
         },
         (err, token) => {
           if (err) throw err;

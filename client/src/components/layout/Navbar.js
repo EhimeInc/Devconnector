@@ -55,7 +55,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
       <h1>
         <Link to='/'>
           {' '}
-          <i class='fas fa-anchor'></i> LINKUP
+          <i className='fas fa-anchor'></i> LINKUP
         </Link>
       </h1>{' '}
       {!loading && (

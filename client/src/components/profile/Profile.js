@@ -11,25 +11,20 @@ import ProfileGithub from './ProfileGithub';
 import { getProfileById } from '../../actions/profile';
 //import Experience from '../dashboard/Experience';
 
-const Profile = ({
-  getProfileById,
-  profile: { profile, loading },
-  auth,
-  match,
-}) => {
+const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
   useEffect(() => {
     getProfileById(match.params.id);
   }, [getProfileById]);
   return (
     <Fragment>
-      {profile === null || loading ? (
+      {profile === null ? (
         <Spinner />
       ) : (
         <Fragment>
           {' '}
           <Link to='/profiles' className='btn btn-light'>
             <span>
-              <i class='far fa-arrow-alt-circle-left'></i>
+              <i className='far fa-arrow-alt-circle-left'></i>
             </span>{' '}
             <span>Back To Profiles</span>
           </Link>
@@ -38,12 +33,12 @@ const Profile = ({
             auth.user._id === profile.user._id && (
               <Link to='/edit-profile' className='btn btn-dark'>
                 <span>
-                  <i class='fas fa-user-edit'></i>
+                  <i className='fas fa-user-edit'></i>
                 </span>{' '}
                 <span>Edit Profile</span>
               </Link>
             )}
-          <div class='profile-grid my-1'>
+          <div className='profile-grid my-1'>
             <ProfileTop profile={profile} />
             <ProfileAbout profile={profile} />
             <ProfileAbout profile={profile} />

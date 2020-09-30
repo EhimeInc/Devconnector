@@ -297,7 +297,7 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
 
     await post.save();
 
-    res.json(post.comments);
+    return res.json(post.comments);
   } catch (err) {
     console.error(err.message);
     return res.status(500).send('Server Error');

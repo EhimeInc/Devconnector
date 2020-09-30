@@ -10,7 +10,7 @@ connectDB();
 //Init Middleware
 app.use(
   express.json({
-    extended: false,
+    /*extended: false,*/
   })
 );
 

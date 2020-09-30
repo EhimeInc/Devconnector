@@ -14,7 +14,7 @@ import Posts from '../posts/Posts';
 import Post from '../post/Post';
 import NotFound from '../layout/NotFound';
 import PrivateRoute from '../routing/PrivateRoute';
-function Routes() {
+const Routes = props => {
   return (
     <section className='container'>
       <Alert />
@@ -34,6 +34,5 @@ function Routes() {
       </Switch>
     </section>
   );
-}
-
+};
 export default Routes;

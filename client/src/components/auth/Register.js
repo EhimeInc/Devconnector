@@ -100,7 +100,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             name='password'
             value={password}
             onChange={e => onChange(e)}
-            //minLength='6'
+            //minLength='8'
             //required
           />
         </div>
@@ -111,7 +111,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             name='password2'
             value={password2}
             onChange={e => onChange(e)}
-            //minLength='6'
+            //minLength='8'
             //required
           />
         </div>
@@ -124,7 +124,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   );
 };
 
-Register.PropType = {
+Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,

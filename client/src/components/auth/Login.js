@@ -3,7 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 //import axios from 'axios';
 import { Fragment, useState } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
 
 const Login = ({ login, isAuthenticated }) => {
@@ -61,7 +61,7 @@ const Login = ({ login, isAuthenticated }) => {
             name='password'
             value={password}
             onChange={e => onChange(e)}
-            minLength='6'
+            minLength='8'
             required
           />
         </div>
