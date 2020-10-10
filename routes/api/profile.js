@@ -6,6 +6,7 @@ const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 const normalize = require('normalize-url');
+const checkObjectId = require('../../middleware/checkObjectId');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 const Post = require('../../models/Post');
@@ -21,12 +22,12 @@ const Post = require('../../models/Post');
 router.get('/me', auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({
-      user: req.user.id,
-    }).populate('user', ['name', 'avartar']);
+      user: req.user.id
+    }).populate('user', ['name', 'avatar']);
 
     if (!profile) {
       return res.status(400).json({
-        msg: 'There is no profile for this user',
+        msg: 'There is no profile for this user'
       });
     }
 
@@ -49,52 +50,67 @@ router.post(
   '/',
   [
     auth,
-    check('status', 'Status is required').not().isEmpty(),
-    check('skills', 'Skills is required').not().isEmpty(),
+    [
+      check('status', 'Status is required').not().isEmpty(),
+      check('skills', 'Skills is required').not().isEmpty()
+    ]
   ],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
-        errors: errors.array(),
+        errors: errors.array()
       });
     }
     const {
       company,
-      website,
       location,
+      website,
       bio,
+      skills,
       status,
       githubusername,
-      skills,
       youtube,
       facebook,
       twitter,
       instagram,
-      linkedin,
-    } = req.body;
+      linkedin
+    } = req.body; /*
+        .map((skill) =>
+          skill.trim()
+        ) /** discount the space and map the string to array ;
+    }*/
 
     //Build Profile object
-    const profileFields = {};
+    /** const profileFields = {
     profileFields.user = req.user.id;
     if (company) profileFields.company = company;
     if (website) profileFields.website = website;
     if (location) profileFields.location = location;
     if (bio) profileFields.bio = bio;
     if (status) profileFields.status = status;
-    if (githubusername) profileFields.githubusername = githubusername;
+    if (githubusername) profileFields.githubusername = githubusername};
     if (skills) {
       profileFields.skills = skills
         .split(
           ','
-        ) /* change the list to an array that takes string with delimiter (comma)*/
-        .map(skill =>
-          skill.trim()
-        ) /** discount the space and map the string to array */;
-    }
-
+        ) /* change the list to an array that takes string with delimiter (comma)*/ const profileFields = {
+      user: req.user.id,
+      company,
+      location,
+      website:
+        website && website !== ''
+          ? normalize(website, { forceHttps: true })
+          : '',
+      bio,
+      skills: Array.isArray(skills)
+        ? skills
+        : skills.split(',').map((skill) => ' ' + skill.trim()),
+      status,
+      githubusername
+    };
     //Build social object
-    profileFields.social = {};
+    /* profileFields.social = {};
     if (youtube) profileFields.social.youtube = youtube;
     if (twitter) profileFields.social.twitter = twitter;
     if (facebook) profileFields.social.facebook = facebook;
@@ -103,20 +119,20 @@ router.post(
 
     try {
       let profile = await Profile.findOne({
-        user: req.user.id,
+        user: req.user.id
       });
 
       if (profile) {
         // Update
         profile = await Profile.findOneAndUpdate(
           {
-            user: req.user.id,
+            user: req.user.id
           },
           {
-            $set: profileFields,
+            $set: profileFields
           },
           {
-            new: true,
+            new: true
           }
         );
 
@@ -130,6 +146,30 @@ router.post(
       res.json(profile);
     } catch (error) {
       console.error(error.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);*/
+
+    // Build social object and add to profileFields
+    const socialfields = { youtube, twitter, instagram, linkedin, facebook };
+
+    for (const [key, value] of Object.entries(socialfields)) {
+      if (value && value.length > 0)
+        socialfields[key] = normalize(value, { forceHttps: true });
+    }
+    profileFields.social = socialfields;
+
+    try {
+      // Using upsert option (creates new doc if no match is found):
+      let profile = await Profile.findOneAndUpdate(
+        { user: req.user.id },
+        { $set: profileFields },
+        { new: true, upsert: true, setDefaultsOnInsert: true }
+      );
+      res.json(profile);
+    } catch (err) {
+      console.error(err.message);
       res.status(500).send('Server Error');
     }
   }
@@ -162,33 +202,36 @@ router.get('/', async (req, res) => {
  * @access   Public
  */
 
-router.get('/user/:user_id', async (req, res) => {
-  try {
-    const profile = await Profile.findOne({
-      user: req.params.user_id,
-    }).populate('user', ['name', 'avatar']);
+router.get(
+  '/user/:user_id',
+  checkObjectId('user_id'),
+  async ({ params: { user_id } }, res) => {
+    try {
+      const profile = await Profile.findOne({
+        user: req.params.user_id
+      }).populate('user', ['name', 'avatar']);
 
-    if (!profile)
-      return res.status(400).json({
-        msg: 'Profile not found',
-      });
-    res.json(profile);
-    //console.error(profile);
-  } catch (err) {
-    console.error(err.message);
-    if (err.kind === 'ObjectId') {
-      return res.status(400).json({
-        msg: 'Profile not found',
-      });
-    }
-    if (err.name === 'CastError') {
-      return res.status(400).json({
-        msg: 'Profile not found',
+      if (!profile)
+        return res.status(400).json({
+          msg: 'Profile not found'
+        });
+      return res.json(profile);
+      //console.error(profile);
+    } catch (err) {
+      console.error(err.message);
+      // if (err.kind === 'ObjectId') {
+      return res.status(500).json({
+        msg: 'Profile not found due server error'
       });
     }
-    res.status(500).send('Server Error');
+    /*if (err.name === 'CastError') {
+        return res.status(400).json({
+          msg: 'Profile not found'
+        });
+      }
+      res.status(500).send('Server Error');*/
   }
-});
+);
 
 /**
  * @router   DELETE api/profile/
@@ -202,18 +245,18 @@ router.delete('/', auth, async (req, res) => {
   try {
     // Remove user posts
     await Post.deleteMany({
-      user: req.user.id,
+      user: req.user.id
     });
     // Remove profile
     await Profile.findOneAndRemove({
-      user: req.user.id,
+      user: req.user.id
     });
 
     // Remove user
     await User.findOneAndRemove({
-      _id: req.user.id,
+      _id: req.user.id
     });
-    res.json('User deleted');
+    res.json({ msg: 'User deleted' });
     //console.error(profiles);
   } catch (err) {
     console.error(err.message);
@@ -236,14 +279,17 @@ router.put(
     [
       check('title', 'Title is required').not().isEmpty(),
       check('company', 'Company is required').not().isEmpty(),
-      check('from', 'From is required').not().isEmpty(),
-    ],
+      check('from', 'From date is required and needs to be from the past')
+        .not()
+        .isEmpty()
+        .custom((value, { req }) => (req.body.to ? value < req.body.to : true))
+    ]
   ],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
-        errors: errors.array(),
+        errors: errors.array()
       });
     }
 
@@ -254,7 +300,7 @@ router.put(
       from,
       to,
       current,
-      description,
+      description
     } = req.body;
     const newExp = {
       title,
@@ -263,12 +309,12 @@ router.put(
       from,
       to,
       current,
-      description,
+      description
     };
 
     try {
       const profile = await Profile.findOne({
-        user: req.user.id,
+        user: req.user.id
       });
 
       // unshift is similar to push but instead of moving to the end, it makeslast in the first
@@ -289,16 +335,16 @@ router.put(
  *
  * @access   Private
  */
-
+/*
 router.delete('/experience/:exp_id', auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({
-      user: req.user.id,
+      user: req.user.id
     });
 
     // Get remove index
     const removeIndex = profile.experience
-      .map(item => item.id)
+      .map((item) => item.id)
       .indexOf(req.params.exp_id);
     profile.experience.splice(removeIndex, 1);
     await profile.save();
@@ -306,6 +352,22 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
+  }
+});*/
+
+router.delete('/experience/:exp_id', auth, async (req, res) => {
+  try {
+    const foundProfile = await Profile.findOne({ user: req.user.id });
+
+    foundProfile.experience = foundProfile.experience.filter(
+      (exp) => exp._id.toString() !== req.params.exp_id
+    );
+
+    await foundProfile.save();
+    return res.status(200).json(foundProfile);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ msg: 'Server error' });
   }
 });
 
@@ -325,14 +387,17 @@ router.put(
       check('school', 'School is required').not().isEmpty(),
       check('degree', 'Degree is required').not().isEmpty(),
       check('fieldofstudy', 'Field of study is required').not().isEmpty(),
-      check('from', 'From is required').not().isEmpty(),
-    ],
+      check('from', 'From date is required and needs to be from the past')
+        .not()
+        .isEmpty()
+        .custom((value, { req }) => (req.body.to ? value < req.body.to : true))
+    ]
   ],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
-        errors: errors.array(),
+        errors: errors.array()
       });
     }
 
@@ -343,7 +408,7 @@ router.put(
       from,
       to,
       current,
-      description,
+      description
     } = req.body;
     const newEdu = {
       school,
@@ -352,12 +417,12 @@ router.put(
       from,
       to,
       current,
-      description,
+      description
     };
 
     try {
       const profile = await Profile.findOne({
-        user: req.user.id,
+        user: req.user.id
       });
 
       // unshift is similar to push but instead of moving to the end, it makeslast in the first
@@ -378,16 +443,16 @@ router.put(
  *
  * @access   Private
  */
-
+/*
 router.delete('/education/:edu_id', auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({
-      user: req.user.id,
+      user: req.user.id
     });
 
     // Get remove index
     const removeIndex = profile.education
-      .map(item => item.id)
+      .map((item) => item.id)
       .indexOf(req.params.edu_id);
     profile.education.splice(removeIndex, 1);
     await profile.save();
@@ -395,6 +460,19 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
+  }
+});*/
+router.delete('/education/:edu_id', auth, async (req, res) => {
+  try {
+    const foundProfile = await Profile.findOne({ user: req.user.id });
+    foundProfile.education = foundProfile.education.filter(
+      (edu) => edu._id.toString() !== req.params.edu_id
+    );
+    await foundProfile.save();
+    return res.status(200).json(foundProfile);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ msg: 'Server error' });
   }
 });
 
@@ -442,7 +520,7 @@ router.get('/github/:username', async (req, res) => {
     );
     const headers = {
       'user-agent': 'node.js',
-      Authorization: `token ${config.get('githubToken')}`,
+      Authorization: `token ${config.get('githubToken')}`
     };
 
     const gitHubResponse = await axios.get(uri, { headers });

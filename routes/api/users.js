@@ -26,14 +26,14 @@ router.post(
       'password',
       'Please enter a password with 8 or more characters'
     ).isLength({
-      min: 8,
-    }),
+      min: 8
+    })
   ],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
-        errors: errors.array(),
+        errors: errors.array()
       });
     }
 
@@ -45,16 +45,16 @@ router.post(
       // See if user exists
 
       let user = await User.findOne({
-        email,
+        email
       });
 
       if (user) {
         return res.status(400).json({
           errors: [
             {
-              msg: 'This user already exists',
-            },
-          ],
+              msg: 'This user already exists'
+            }
+          ]
         });
       }
 
@@ -63,14 +63,14 @@ router.post(
       const avatar = gravatar.url(email, {
         s: '200', // default size or string length
         r: 'pg', // pg or parental guide "no adult content"
-        d: 'mm', // default multimedia image if user does not have a gravatar
+        d: 'mm' // default multimedia image if user does not have a gravatar
       });
 
       user = new User({
         name,
         email,
         avatar,
-        password,
+        password
       });
       // Encrypt password
       const salt = await bcrypt.genSalt(12);
@@ -81,20 +81,20 @@ router.post(
 
       const payload = {
         user: {
-          id: user.id,
-        },
+          id: user.id
+        }
       };
 
       jwt.sign(
         payload,
         config.get('jwtSecret'),
         {
-          expiresIn: '5 days', // change to 3600 in production
+          expiresIn: '5 days' /* change to 3600 in production*/
         },
         (err, token) => {
           if (err) throw err;
           res.json({
-            token,
+            token
           });
         }
       );
